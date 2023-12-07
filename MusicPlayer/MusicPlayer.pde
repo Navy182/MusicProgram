@@ -52,9 +52,18 @@ void keyPressed() {
       song1.mute();
     }
   } //End MUTE
- //
+ // //Possible ERROR: FF rewinds to parameter milliseconds from SONG Start
+  //Possible ERROR: FR rewinds to parameter milliseconds from SONG Start
+  //How does this get to be a true ff and fr button
+  //Actual .skip() allows for varaible ff & fr using .position()+-
+  if ( key=='F' || key=='f' ) song1.skip( 0 ); //SKIP forward 1 second (1000 milliseconds)
+  if ( key=='R' || key=='r' ) song1.skip( 1000 ); //SKIP  backawrds 1 second, notice negative, (-1000 milliseconds)
+  //
+  if (key=='S' | key=='s' )
 } //End keyPressed
 //
-void mousePressed() {} //End mousePressed
+void mousePressed() {
+
+} //End mousePressed
 //
 //End MAIN Program
