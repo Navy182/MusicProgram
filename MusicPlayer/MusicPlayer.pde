@@ -14,7 +14,7 @@ void setup() {
   //size() or fullScreen()
   //Display Algorithm
   minim = new Minim(this); //load from data directory, loadFile should also load from project folder, like loadImage
-  String groove = "";
+  String cutmeoff = "";
   String extension = ".mp3";
   String pathway = ""; //Relative Path
   String path = sketchPath( ); //Absolute Path
