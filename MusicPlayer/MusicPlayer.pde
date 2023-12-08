@@ -28,16 +28,18 @@ void draw() {} //End draw
 //
 void keyPressed() {
   if ( key=='P' || key=='p' ) song1.play(); //Parameter is milli-seconds from start of audio file to start playing (illustrate with examples)
-  if ( key=='L' || key=='l' ) song1.loop(0); //Parameter is number of repeats
-  //song1.loop(0);
-  // //Parameter is milli-seconds from start of audio file to start playing (illustrate with examples)
-  String keystr = String.valueOf(key);
+  //.play() includes .rewind()
+  //
+  if ( key>='1' || key<='9' ) { //Loop Button, previous (key=='1' || key=='9')
+    //Note: "9" is assumed to be massive! "Simulate Infinite"
+    String keystr = String.valueOf(key);
     //println(keystr);
     int loopNum = int(keystr); //Java, strongly formatted need casting
     song1.loop(loopNum); //Parameter is number of repeats
     //
-    {
+  }
   if ( key=='L' || key=='l' ) song1.loop(); //Infinite Loop, no parameter OR -1
+  //
   if ( key=='M' || key=='m' ) { //MUTE Button
     //MUTE Behaviour: stops electricty to speakers, does not stop file
     //NOTE: MUTE has NO built-in PUASE button, NO built-in rewind button
@@ -52,14 +54,31 @@ void keyPressed() {
       song1.mute();
     }
   } //End MUTE
- // //Possible ERROR: FF rewinds to parameter milliseconds from SONG Start
+  //
+  //Possible ERROR: FF rewinds to parameter milliseconds from SONG Start
   //Possible ERROR: FR rewinds to parameter milliseconds from SONG Start
   //How does this get to be a true ff and fr button
   //Actual .skip() allows for varaible ff & fr using .position()+-
   if ( key=='F' || key=='f' ) song1.skip( 0 ); //SKIP forward 1 second (1000 milliseconds)
   if ( key=='R' || key=='r' ) song1.skip( 1000 ); //SKIP  backawrds 1 second, notice negative, (-1000 milliseconds)
   //
-  if (key=='S' | key=='s' )
+  //Simple STOP Behaviour: ask if .playing() & .pause() & .rewind(), or .rewind()
+  if ( key=='S' | key=='s' ) {
+    if ( song1.isPlaying() ) {
+      song1.pause(); //auto .rewind()
+    } else {
+      song1.rewind(); //Not Necessary
+    }
+  }
+  //
+  //Simple Pause Behaviour: .pause() & hold .position(), then PLAY
+  if ( key=='Y' | key=='y' ) {
+    if ( song1.isPlaying()==true ) {
+      song1.pause(); //auto .rewind()
+    } else {
+      song1.play(); //ERROR, doesn't play
+    }
+  }
 } //End keyPressed
 //
 void mousePressed() {
