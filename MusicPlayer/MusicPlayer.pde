@@ -1,4 +1,11 @@
 //Global Variables
+File musicFolder; //Class for java.io.* library
+Minim minim; //creates object to access all functions
+int numberOfSongs = 1; //Placeholder Only, reexecute lines after fileCount Known
+AudioPlayer[] playList = new AudioPlayer[numberOfSongs]; //song is now similar to song1
+AudioMetaData[] playListMetaData = new AudioMetaData[numberOfSongs]; //same as above
+PFont generalFont;
+color purple = #2C08FF;
 //Library: use Sketch / Import Library / Minim
 import ddf.minim.*;
 import ddf.minim.analysis.*;
@@ -13,8 +20,8 @@ AudioPlayer song1; //creates "Play List" variable holding extensions WAV, AIFF, 
 void setup() {
   //size() or fullScreen()
   //Display Algorithm
-  minim = new Minim(this); //load from data directory, loadFile should also load from project folder, like loadImage
-  String cutmeoff = "";
+    minim = new Minim(this); //load from data directory, loadFile should also load from project folder, like loadImage
+  String cutmeoff = "https://www.youtube.com/watch?v=ptH2DVO4rcc";
   String extension = ".mp3";
   String pathway = ""; //Relative Path
   String path = sketchPath( ); //Absolute Path
@@ -22,6 +29,36 @@ void setup() {
   println(path);
   song1 = minim.loadFile( path );
   //song1.loop(0);
+  String relativePathway = "FreeWare Music/MusicDownload/"; //Relative Path
+  String absolutePath = sketchPath( relativePathway ); //Absolute Path
+  println("Main Directory to Music Folder", absolutePath);
+  musicFolder = new File(absolutePath);
+  int musicFileCount = musicFolder.list().length;
+  println("File Count of the Music Folder", musicFileCount);
+  File[] musicFiles = musicFolder.listFiles(); //String of Full Directies
+  println("List of all Directories of Each Song to Load into music playlist");
+  printArray(musicFiles);
+  //Demonstration Only, files know their names in Java.IO Library
+  for ( int i = 0; i < musicFiles.length; i++ ) {
+    println("File Name", musicFiles[i].getName() );
+  }
+  //NOTE: take each song's pathway and load the music into the PlayList
+  String[] songFilePathway = new String[musicFileCount];
+  for ( int i = 0; i < musicFiles.length; i++ ) {
+    songFilePathway[i] = ( musicFiles[i].toString() );
+  }
+  // Re-execute Playlist Population, similar to DIV Population
+  int numberOfSongs = musicFileCount; //Placeholder Only, reexecute lines after fileCount Known
+  playList = new AudioPlayer[numberOfSongs]; //song is now similar to song1
+  playListMetaData = new AudioMetaData[numberOfSongs]; //same as above
+  //
+  minim = new Minim(this); //load from data directory, loadFile should also load from project folder, like loadImage
+  //
+  for ( int i=0; i<musicFileCount; i++ ) {
+    playList[i]= minim.loadFile( songFilePathway[i] );
+    playListMetaData[i] = playList[i].getMetaData();
+  } //End Music Load
+
 } //End setup
 //
 void draw() {} //End draw
